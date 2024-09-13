@@ -11,6 +11,7 @@ export type TInputProps = {
   description?: string,
   icon?: FunctionalComponent,
   iconAlt?: string,
+  autocomplete?: string,
 }
 const props = withDefaults(defineProps<TInputProps & {
   inputType: TInputType,
@@ -28,6 +29,7 @@ const props = withDefaults(defineProps<TInputProps & {
         <div class="relative">
           <Input :type="inputType" :placeholder="placeholder" v-bind="componentField"
                  :class="cn(`${icon?'pl-7':''}`)"
+                 :autocomplete="autocomplete"
           />
           <span v-if="icon" class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
             <component :is="icon" class="size-4 text-muted-foreground"/>

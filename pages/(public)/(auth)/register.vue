@@ -6,6 +6,8 @@ import TextInput from "~/components/custom/input/TextInput.vue";
 import EmailInput from "~/components/custom/input/EmailInput.vue";
 import PasswordInput from "~/components/custom/input/PasswordInput.vue";
 import {Button} from "~/components/ui/button"
+import {PersonIcon} from "@radix-icons/vue";
+import BaseInput from "~/components/custom/input/BaseInput.vue";
 
 definePageMeta({
   layout: 'auth'
@@ -41,17 +43,22 @@ const onSubmit = form.handleSubmit((payload) => {
 
 <template>
   <form @submit="onSubmit">
-    <TextInput field="name"
+    <BaseInput field="name"
                label="Name"
+               :icon="PersonIcon"
+               autocomplete="name"
     />
     <EmailInput field="email"
                 label="Email"
+                autocomplete="email"
     />
     <PasswordInput field="password"
                    label="Password"
+                   autocomplete="new-password"
     />
     <PasswordInput field="password_confirmation"
                    label="Confirm Password"
+                   autocomplete="new-password"
     />
 
     <div class="inline-flex w-full items-center justify-end">
