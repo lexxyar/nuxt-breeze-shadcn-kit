@@ -6,11 +6,9 @@ import * as z from 'zod'
 import EmailInput from "~/components/custom/input/EmailInput.vue";
 import PasswordInput from "~/components/custom/input/PasswordInput.vue";
 import {Button} from "~/components/ui/button"
-import {PersonIcon} from "@radix-icons/vue";
-import BaseInput from "~/components/custom/input/BaseInput.vue";
 
 definePageMeta({
-  layout: 'auth'
+  layout: 'guest'
 })
 
 configure({validateOnModelUpdate: false})

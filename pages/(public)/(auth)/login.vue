@@ -9,7 +9,7 @@ import * as z from "zod";
 import CheckboxInput from "~/components/custom/checkbox/CheckboxInput.vue";
 
 definePageMeta({
-  layout: 'auth'
+  layout: 'guest'
 })
 
 configure({validateOnModelUpdate: false})
@@ -31,6 +31,10 @@ const onSubmit = form.handleSubmit((payload) => {
 </script>
 
 <template>
+  <Head>
+    <title>Sign In</title>
+  </Head>
+
   <form @submit="onSubmit">
     <EmailInput field="email"
                 label="Email"

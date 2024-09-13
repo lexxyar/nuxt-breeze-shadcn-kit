@@ -2,7 +2,6 @@
 import {configure, useForm} from 'vee-validate'
 import {toTypedSchema} from '@vee-validate/zod'
 import * as z from 'zod'
-import TextInput from "~/components/custom/input/TextInput.vue";
 import EmailInput from "~/components/custom/input/EmailInput.vue";
 import PasswordInput from "~/components/custom/input/PasswordInput.vue";
 import {Button} from "~/components/ui/button"
@@ -10,7 +9,7 @@ import {PersonIcon} from "@radix-icons/vue";
 import BaseInput from "~/components/custom/input/BaseInput.vue";
 
 definePageMeta({
-  layout: 'auth'
+  layout: 'guest'
 })
 
 configure({validateOnModelUpdate: false})
@@ -42,6 +41,10 @@ const onSubmit = form.handleSubmit((payload) => {
 </script>
 
 <template>
+  <Head>
+    <title>Register</title>
+  </Head>
+
   <form @submit="onSubmit">
     <BaseInput field="name"
                label="Name"

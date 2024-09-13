@@ -6,7 +6,7 @@ import {toTypedSchema} from "@vee-validate/zod";
 import * as z from "zod";
 
 definePageMeta({
-  layout: 'auth'
+  layout: 'guest'
 })
 
 configure({validateOnModelUpdate: false})
@@ -26,10 +26,15 @@ const onSubmit = form.handleSubmit((payload) => {
 </script>
 
 <template>
+  <Head>
+    <title>Forgot Password</title>
+  </Head>
+
   <form @submit="onSubmit">
-    <p class="text-muted-foreground mb-5">
-      Forgot your password? No problem.Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
-    </p>
+    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+      Forgot your password? No problem. Just let us know your email address and we will email you a
+      password reset link that will allow you to choose a new one.
+    </div>
 
     <EmailInput field="email"
                 label="Email"
