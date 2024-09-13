@@ -41,17 +41,25 @@ const onSubmit = form.handleSubmit((payload) => {
                    autocomplete="current-password"
     />
 
+    <div class="inline-flex w-full items-center justify-between">
       <CheckboxInput field="remember"
                      label="Remember me"/>
 
-    <div class="inline-flex w-full items-center justify-end">
-      <NuxtLink to="/register">
+      <NuxtLink to="/register" class="mb-3">
         <Button type="button" variant="link">
           New here?
         </Button>
       </NuxtLink>
+    </div>
+
+    <div class="inline-flex w-full items-center justify-end">
+      <NuxtLink to="/forgot-password">
+        <Button type="button" variant="link">
+          Forgot your password?
+        </Button>
+      </NuxtLink>
       <Button type="submit">
-        Register
+        Sign In
       </Button>
     </div>
   </form>
