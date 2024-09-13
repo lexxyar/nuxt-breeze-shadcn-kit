@@ -36,7 +36,7 @@ const onSubmit = form.handleSubmit((payload) => {
                 autocomplete="username"
     />
 
-    <div class="inline-flex w-full items-center justify-end">
+    <div class="inline-flex w-full items-center justify-end gap-3">
       <NuxtLink to="/login">
         <Button type="button" variant="ghost">
           Cancel
