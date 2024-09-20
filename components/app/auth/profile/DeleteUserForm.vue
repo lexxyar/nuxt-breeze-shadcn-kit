@@ -14,8 +14,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import {useProfile} from "~/composables/useProfile";
+import {toast} from "~/components/ui/toast";
+import {useAuth} from "~/composables/useAuth";
 
 configure({validateOnModelUpdate: false})
+const {deleteProfile} = useProfile()
 
 const modal = ref(false)
 
@@ -28,20 +32,14 @@ const form = useForm({
 })
 
 const onSubmit = async () => {
-  console.log('Form submitted!')
   try {
-  //   await deleteProfile(form)
-  //   closeModal()
+    await deleteProfile(form)
     modal.value = false
-  //   await logout()
-  } catch (err) {
-  //   // toast.error("Something went wrong!")
+    await navigateTo("/login", {replace: true, external: true})
+  } catch (e) {
+    toast({description: e.message, variant: 'destructive'})
   }
 }
-
-// const onSubmit = (values:any) => {
-//   console.log('Form submitted!', values)
-// }
 
 const deleteUser = (e: Event) => {
   e.preventDefault()

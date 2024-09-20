@@ -1,10 +1,10 @@
 <script setup lang="ts">
 definePageMeta({
-  // middleware: 'auth' // this should match the name of the file inside the middleware directory
+  middleware: 'auth' // this should match the name of the file inside the middleware directory
 })
 
 const user = useUser()
-console.log('current user', user.value)
+// console.log('current user', user.value)
 </script>
 
 <template>

@@ -1,8 +1,12 @@
 <script setup lang="ts">
 
-import UpdateProfileInformation from "~/components/app/auth/profile/UpdateProfileInformation.vue";
-import UpdatePasswordForm from "~/components/app/auth/profile/UpdatePasswordForm.vue";
-import DeleteUserForm from "~/components/app/auth/profile/DeleteUserForm.vue";
+import UpdateProfileInformation from "@/components/app/auth/profile/UpdateProfileInformation.vue";
+import UpdatePasswordForm from "@/components/app/auth/profile/UpdatePasswordForm.vue";
+import DeleteUserForm from "@/components/app/auth/profile/DeleteUserForm.vue";
+
+definePageMeta({
+  middleware: 'auth',
+})
 </script>
 
 <template>

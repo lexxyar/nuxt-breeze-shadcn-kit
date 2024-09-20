@@ -10,11 +10,27 @@ import {
 } from '@/components/ui/dropdown-menu'
 import {useAuth} from "~/composables/useAuth";
 
-const {logout} = useAuth()
+const {logout, user} = useAuth()
 
 const onLogout = async () => {
   await logout()
+  navigateTo('/login')
 }
+const userInitials = computed(() => {
+  if (user.value?.name) {
+    const names: string[] = user.value?.name.split(' ')
+    const initials: string[] = []
+    while (names.length > 0) {
+      const item: string | undefined = names.shift()
+      if (item) {
+        initials.push(item[0].toUpperCase())
+      }
+    }
+    return initials.slice(0, 2).join('')
+  } else {
+    return '?'
+  }
+})
 </script>
 
 <template>
@@ -22,11 +38,13 @@ const onLogout = async () => {
     <DropdownMenuTrigger class="h-10">
       <Avatar>
         <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue"/>
-        <AvatarFallback>CN</AvatarFallback>
+        <AvatarFallback>{{userInitials}}</AvatarFallback>
       </Avatar>
     </DropdownMenuTrigger>
     <DropdownMenuContent>
-      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuLabel>
+        {{ user?.name || '' }}
+      </DropdownMenuLabel>
       <DropdownMenuSeparator/>
       <DropdownMenuItem>
         <NuxtLink to="/profile">

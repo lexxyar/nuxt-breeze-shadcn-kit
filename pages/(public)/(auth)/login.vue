@@ -3,18 +3,22 @@
 import EmailInput from "~/components/custom/input/EmailInput.vue";
 import {Button} from "~/components/ui/button";
 import PasswordInput from "~/components/custom/input/PasswordInput.vue";
-import {configure, useForm} from "vee-validate";
+import {useForm} from "vee-validate";
 import {toTypedSchema} from "@vee-validate/zod";
 import * as z from "zod";
 import CheckboxInput from "~/components/custom/checkbox/CheckboxInput.vue";
 import {toast} from "~/components/ui/toast";
 
 definePageMeta({
-  layout: 'guest'
+  layout: 'guest',
+  middleware: 'guest',
 })
 
 const {login} = useAuth()
-configure({validateOnModelUpdate: false})
+const status = ref()
+const route = useRoute()
+status.value = route.query.reset ? atob(route.query.reset) : undefined
+
 
 const formSchema = toTypedSchema(z.object({
       email: z.string().email(),
@@ -30,7 +34,7 @@ const form = useForm({
 const onSubmit = form.handleSubmit(async () => {
   try {
     await login(form)
-    useRouter().push('/dashboard')
+    await navigateTo("/dashboard", {replace: true, external: true})
   } catch (error: any) {
     toast({description: error.message})
   }
@@ -41,6 +45,10 @@ const onSubmit = form.handleSubmit(async () => {
   <Head>
     <title>Sign In</title>
   </Head>
+
+  <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
+    {{ status }}
+  </div>
 
   <form @submit="onSubmit">
     <EmailInput field="email"

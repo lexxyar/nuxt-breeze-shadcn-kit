@@ -6,12 +6,18 @@ import * as z from 'zod'
 import EmailInput from "~/components/custom/input/EmailInput.vue";
 import PasswordInput from "~/components/custom/input/PasswordInput.vue";
 import {Button} from "~/components/ui/button"
+import {useAuth} from "~/composables/useAuth";
+import {toast} from "~/components/ui/toast";
+import router from "#app/plugins/router";
 
 definePageMeta({
-  layout: 'guest'
+  layout: 'guest',
+  middleware: 'guest',
 })
 
 configure({validateOnModelUpdate: false})
+const route = useRoute()
+const {resetPassword} = useAuth()
 
 const formSchema = toTypedSchema(z.object({
   email: z.string().email(),
@@ -29,11 +35,21 @@ const formSchema = toTypedSchema(z.object({
 
 const form = useForm({
   validationSchema: formSchema,
+  initialValues: {
+    email: route.query.email ?? '',
+  }
 })
 
-const onSubmit = form.handleSubmit((payload) => {
-  console.log('Form submitted!', payload)
+const onSubmit = form.handleSubmit(async () => {
+  try {
+    const responseStatus = await resetPassword(route.params.token, form)
+    await navigateTo('/login?reset=' + btoa(responseStatus))
+  } catch (error: any) {
+    console.log(error)
+    toast({description: error.message})
+  }
 })
+
 </script>
 
 <template>
@@ -41,6 +57,7 @@ const onSubmit = form.handleSubmit((payload) => {
     <EmailInput field="email"
                 label="Email"
                 autocomplete="email"
+                :disabled="true"
     />
     <PasswordInput field="password"
                    label="Password"

@@ -24,5 +24,8 @@ export default defineNuxtConfig({
         define: {
             ...envPublicDict
         }
-    }
+    },
+    imports: {
+        dirs: ["./utils"],
+    },
 })

@@ -9,6 +9,9 @@ const axios = Axios.create({
     withXSRFToken: true,
     withCredentials: true,
 })
+// axios.interceptors.request.use(function (config) {
+//     console.log('intr-request', config)
+// })
 
 export const csrf = () => axios.get('/sanctum/csrf-cookie', {baseURL})
 

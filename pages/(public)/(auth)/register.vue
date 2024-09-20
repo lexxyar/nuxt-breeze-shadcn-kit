@@ -11,7 +11,8 @@ import {toast} from "~/components/ui/toast";
 import {useAuth} from "~/composables/useAuth";
 
 definePageMeta({
-  layout: 'guest'
+  layout: 'guest',
+  middleware: 'guest',
 })
 
 configure({validateOnModelUpdate: false})
@@ -40,8 +41,9 @@ const form = useForm({
 const onSubmit = form.handleSubmit(async () => {
   try {
     await register(form)
+    await navigateTo("/dashboard", {replace: true, external: true})
   } catch (error: any) {
-    toast({description: error.message})
+    toast({description: error.message, variant:'destructive'})
   }
 })
 
