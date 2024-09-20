@@ -1,5 +1,4 @@
 import axios, {csrf} from "~/lib/axios";
-import {parseCookies} from "h3";
 
 export type User = {
     created_at: string
@@ -36,7 +35,6 @@ export const useUser = <T = User>() => {
 };
 
 export const useAuth = <T = User>() => {
-    const router = useRouter();
 
     const user = useUser<T>();
     const isLoggedIn = computed(() => !!user.value);
@@ -59,7 +57,7 @@ export const useAuth = <T = User>() => {
         try {
             await csrf()
             await axios.post('/login', form.values)
-            // await mutate()
+            await refresh()
         } catch (error: any) {
             if (error.response.status !== 422) throw error
 
@@ -75,6 +73,7 @@ export const useAuth = <T = User>() => {
         try {
             await csrf()
             await axios.post('/register', form.values)
+            await refresh()
         } catch (error: any) {
             if (error.response.status !== 422) throw error
 
@@ -157,7 +156,6 @@ export const fetchCurrentUser = async <T = User>() => {
     try {
         return await $larafetch<T>("/api/user");
     } catch (error: any) {
-        console.log('error', error.message)
         if ([401, 419].includes(error?.response?.status)) return null;
         throw error;
     }
