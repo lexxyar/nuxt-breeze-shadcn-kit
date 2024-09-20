@@ -9,10 +9,6 @@ const axios = Axios.create({
     withXSRFToken: true,
     withCredentials: true,
 })
-axios.interceptors.request.use(function (config) {
-    // console.log('intr-request', config)
-    return config
-})
 
 export const csrf = async() => {
     const CSRF_COOKIE = "XSRF-TOKEN";
