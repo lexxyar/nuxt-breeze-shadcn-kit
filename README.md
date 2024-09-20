@@ -1,75 +1,80 @@
-# Nuxt 3 Minimal Starter
+# Laravel Breeze - Nuxt3 Edition with TypeScript and ShadCn
+(TailwindCSS inside)
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+---
+**This repository created from scratch using some features of [breeze-next](https://github.com/laravel/breeze-next). [TypeScript](https://www.typescriptlang.org/) programming language used as default. [ShadCn](https://ui.shadcn.com/) used as UI library. And of course [Tailwind CSS](https://tailwindcss.com/) inside 😎**
 
-## Setup
+### Little extras
+* Dark mode support
+* Profile modification support - [Laravel Breeze modifications for profile editing](BREEZE_MODIFICATIONS.md)
+---
 
-Make sure to install the dependencies:
+### Installation
+
+First, create a Nuxt3 compatible Laravel backend by installing Laravel Breeze into a [fresh Laravel application](https://laravel.com/docs/installation) and installing Breeze's API scaffolding:
 
 ```bash
-# npm
-npm install
+# Create the Laravel application...
+laravel new nuxt-backend
 
-# pnpm
-pnpm install
+cd nuxt-backend
 
-# yarn
-yarn install
+# Install Breeze and dependencies...
+composer require laravel/breeze --dev
 
-# bun
-bun install
+php artisan breeze:install api
 ```
 
-## Development Server
+Next, ensure that your application's `APP_URL` and `FRONTEND_URL` environment variables are set to `http://localhost:8000` and `http://localhost:3000`, respectively.
 
-Start the development server on `http://localhost:3000`:
+After defining the appropriate environment variables, you may serve the Laravel application using the `serve` Artisan command:
 
 ```bash
-# npm
+# Serve the application...
+php artisan serve
+```
+
+Next, clone this repository and install its dependencies with `yarn install` or `npm install`. Then, copy the `.env.example` file to `.env.local` and supply the URL of your backend and frontend:
+
+```
+NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+NUXT_PUBLIC_FRONTEND_URL=http://localhost:3000
+```
+
+Finally, run the application via `npm run dev`. The application will be available at `http://localhost:3000`:
+
+```
 npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+> Note: Currently, we recommend using `localhost` during local development of your backend and frontend to avoid CORS "Same-Origin" issues.
 
-Build the application for production:
+### Authentication API
 
-```bash
-# npm
-npm run build
+This Nuxt3 application contains a custom `useAuth` API functions set, designed to abstract all authentication logic away from your pages. In addition, the functions set can be used to access the currently authenticated user:
 
-# pnpm
-pnpm run build
+```vue
+<script setup lang="ts">
+  const { user, logout } = useAuth();
+</script>
 
-# yarn
-yarn build
+<template>
+  <div>
+    <p>{{ user.name }}</p>
 
-# bun
-bun run build
+    <button @click="logout">Sign out</button>
+  </div>
+</template>
 ```
 
-Locally preview production build:
+> Note: You will need to use [optional chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) (`user?.name` instead of `user.name`) when accessing properties on the user object to account for Nuxt3's initial server-side render.
 
-```bash
-# npm
-npm run preview
+### Profile API
 
-# pnpm
-pnpm run preview
+This Nuxt3 application contains a custom `useProfile` API functions set, designed to modify user profile information, change password and delete account.
 
-# yarn
-yarn preview
+### Named Routes
 
-# bun
-bun run preview
-```
+For convenience, [Ziggy](https://github.com/tighten/ziggy#spas-or-separate-repos) may be used to reference your Laravel application's named route URLs from your React application.
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+

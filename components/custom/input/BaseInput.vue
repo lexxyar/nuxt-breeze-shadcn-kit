@@ -12,9 +12,10 @@ export type TInputProps = {
   icon?: FunctionalComponent,
   iconAlt?: string,
   autocomplete?: string,
+  disabled?:boolean,
 }
 const props = withDefaults(defineProps<TInputProps & {
-  inputType: TInputType,
+  inputType?: TInputType,
 }>(), {
   inputType: "text",
   iconAlt: 'icon',
@@ -27,9 +28,12 @@ const props = withDefaults(defineProps<TInputProps & {
       <FormLabel v-if="label">{{ label }}</FormLabel>
       <FormControl>
         <div class="relative">
-          <Input :type="inputType" :placeholder="placeholder" v-bind="componentField"
+          <Input :type="inputType"
+                 :placeholder="placeholder"
+                 v-bind="componentField"
                  :class="cn(`${icon?'pl-7':''}`)"
                  :autocomplete="autocomplete"
+                 :disabled="disabled"
           />
           <span v-if="icon" class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
             <component :is="icon" class="size-4 text-muted-foreground"/>

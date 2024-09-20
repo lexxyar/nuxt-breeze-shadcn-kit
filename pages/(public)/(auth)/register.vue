@@ -2,18 +2,22 @@
 import {configure, useForm} from 'vee-validate'
 import {toTypedSchema} from '@vee-validate/zod'
 import * as z from 'zod'
-import TextInput from "~/components/custom/input/TextInput.vue";
 import EmailInput from "~/components/custom/input/EmailInput.vue";
 import PasswordInput from "~/components/custom/input/PasswordInput.vue";
 import {Button} from "~/components/ui/button"
 import {PersonIcon} from "@radix-icons/vue";
 import BaseInput from "~/components/custom/input/BaseInput.vue";
+import {toast} from "~/components/ui/toast";
+import {useAuth} from "~/composables/useAuth";
 
 definePageMeta({
-  layout: 'auth'
+  layout: 'guest',
+  middleware: 'guest',
 })
 
 configure({validateOnModelUpdate: false})
+
+const {register} = useAuth()
 
 const formSchema = toTypedSchema(z.object({
   name: z.string().min(2).max(50),
@@ -34,14 +38,23 @@ const form = useForm({
   validationSchema: formSchema,
 })
 
-const onSubmit = form.handleSubmit((payload) => {
-  console.log('Form submitted!', payload)
+const onSubmit = form.handleSubmit(async () => {
+  try {
+    await register(form)
+    await navigateTo("/dashboard", {replace: true, external: true})
+  } catch (error: any) {
+    toast({description: error.message, variant:'destructive'})
+  }
 })
 
 
 </script>
 
 <template>
+  <Head>
+    <title>Register</title>
+  </Head>
+
   <form @submit="onSubmit">
     <BaseInput field="name"
                label="Name"
