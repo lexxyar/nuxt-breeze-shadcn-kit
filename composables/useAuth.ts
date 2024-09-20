@@ -1,4 +1,5 @@
 import axios, {csrf} from "~/lib/axios";
+import {parseCookies} from "h3";
 
 export type User = {
     created_at: string
@@ -149,7 +150,6 @@ export const useAuth = <T = User>() => {
         logout,
         forgotPassword,
         resetPassword,
-        refresh,
     };
 };
 
@@ -157,6 +157,7 @@ export const fetchCurrentUser = async <T = User>() => {
     try {
         return await $larafetch<T>("/api/user");
     } catch (error: any) {
+        console.log('error', error.message)
         if ([401, 419].includes(error?.response?.status)) return null;
         throw error;
     }

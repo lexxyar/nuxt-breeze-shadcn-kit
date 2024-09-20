@@ -9,10 +9,15 @@ const axios = Axios.create({
     withXSRFToken: true,
     withCredentials: true,
 })
-// axios.interceptors.request.use(function (config) {
-//     console.log('intr-request', config)
-// })
+axios.interceptors.request.use(function (config) {
+    // console.log('intr-request', config)
+    return config
+})
 
-export const csrf = () => axios.get('/sanctum/csrf-cookie', {baseURL})
+export const csrf = async() => {
+    const CSRF_COOKIE = "XSRF-TOKEN";
+    await axios.get('/sanctum/csrf-cookie', {baseURL})
+    return useCookie(CSRF_COOKIE).value
+}
 
 export default axios
