@@ -7,17 +7,19 @@ import {configure, useForm} from "vee-validate";
 import {toTypedSchema} from "@vee-validate/zod";
 import * as z from "zod";
 import CheckboxInput from "~/components/custom/checkbox/CheckboxInput.vue";
+import {toast} from "~/components/ui/toast";
 
 definePageMeta({
   layout: 'guest'
 })
 
+const {login} = useAuth()
 configure({validateOnModelUpdate: false})
 
 const formSchema = toTypedSchema(z.object({
       email: z.string().email(),
       password: z.string().min(6),
-      remember: z.boolean(),
+      remember: z.boolean().optional(),
     })
 )
 
@@ -25,8 +27,13 @@ const form = useForm({
   validationSchema: formSchema,
 })
 
-const onSubmit = form.handleSubmit((payload) => {
-  console.log('Form submitted!', payload)
+const onSubmit = form.handleSubmit(async () => {
+  try {
+    await login(form)
+    useRouter().push('/dashboard')
+  } catch (error: any) {
+    toast({description: error.message})
+  }
 })
 </script>
 

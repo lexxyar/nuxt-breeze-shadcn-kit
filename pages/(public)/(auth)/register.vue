@@ -7,12 +7,16 @@ import PasswordInput from "~/components/custom/input/PasswordInput.vue";
 import {Button} from "~/components/ui/button"
 import {PersonIcon} from "@radix-icons/vue";
 import BaseInput from "~/components/custom/input/BaseInput.vue";
+import {toast} from "~/components/ui/toast";
+import {useAuth} from "~/composables/useAuth";
 
 definePageMeta({
   layout: 'guest'
 })
 
 configure({validateOnModelUpdate: false})
+
+const {register} = useAuth()
 
 const formSchema = toTypedSchema(z.object({
   name: z.string().min(2).max(50),
@@ -33,8 +37,12 @@ const form = useForm({
   validationSchema: formSchema,
 })
 
-const onSubmit = form.handleSubmit((payload) => {
-  console.log('Form submitted!', payload)
+const onSubmit = form.handleSubmit(async () => {
+  try {
+    await register(form)
+  } catch (error: any) {
+    toast({description: error.message})
+  }
 })
 
 

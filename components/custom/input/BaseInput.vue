@@ -14,7 +14,7 @@ export type TInputProps = {
   autocomplete?: string,
 }
 const props = withDefaults(defineProps<TInputProps & {
-  inputType: TInputType,
+  inputType?: TInputType,
 }>(), {
   inputType: "text",
   iconAlt: 'icon',
